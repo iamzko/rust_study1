@@ -64,4 +64,6 @@ fn main() {
     }
     // img_test();
     // img_test2();
+    let temp_box  = Box::new(100);
+
 }
