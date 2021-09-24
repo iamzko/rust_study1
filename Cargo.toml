@@ -12,4 +12,5 @@ imgshow = { git = "https://github.com/rust-cv/cv.git" }
 image = "0.23.7"
 imageproc = "0.21.0"
 rand = "0.7.3"
+csv = "1.1"
 tinyfiledialogs = "3.3.10"

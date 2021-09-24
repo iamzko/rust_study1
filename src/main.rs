@@ -5,6 +5,8 @@ use rand::Rng;
 use tinyfiledialogs;
 use tinyfiledialogs::{message_box_ok, MessageBoxIcon, message_box_ok_cancel, OkCancel, open_file_dialog};
 use tinyfiledialogs::MessageBoxIcon::{Warning, Info};
+extern crate csv;
+use std::io;
 
 fn img_test()
 {
@@ -46,24 +48,44 @@ fn dialogs_test()
     }
 
 }
-fn main() {
-    println!("Hello, world!");
-    let a = ",1";
-    let b = a.split(",").collect::<Vec<_>>();
-    println!("{:?}",b);
-    let a = (1,2,3);
-    let (x,y,z) = a;
-    println!("{},{},{}",x,y,z);
-    let s = "";
-    let temp = s.split(",").collect::<Vec<_>>();
-    //open a img file
-    let img_path = open_file_dialog("open","./",Some((&["jpg"],"*.*")));
-    match img_path {
-        Some(s) => img_test2(s),
-        None => println!("you choose nothing!" ),
+fn csv_test()
+{
+    let mut rdr = csv::Reader::from_reader(io::stdin());
+    for result in rdr.records()
+    {
+        match result {
+            Ok(record) => {println!("{:?}",record);}
+            Err(err) => {
+                println!("error reading CSV from <stdin>: {}",err);
+                std::process::exit(1);
+            }
+        }
     }
-    // img_test();
-    // img_test2();
-    let temp_box  = Box::new(100);
+}
+fn csv_test2()
+{
+    let mut wtr = csv::WriterBuilder::new().delimiter(b'\t').quote_style(csv::QuoteStyle::NonNumeric).from_writer(io::stdin());
+    wtr.flush();
+}
+fn main() {
+    // println!("Hello, world!");
+    // let a = ",1";
+    // let b = a.split(",").collect::<Vec<_>>();
+    // println!("{:?}",b);
+    // let a = (1,2,3);
+    // let (x,y,z) = a;
+    // println!("{},{},{}",x,y,z);
+    // let s = "";
+    // let temp = s.split(",").collect::<Vec<_>>();
+    // //open a img file
+    // let img_path = open_file_dialog("open","./",Some((&["jpg"],"*.*")));
+    // match img_path {
+    //     Some(s) => img_test2(s),
+    //     None => println!("you choose nothing!" ),
+    // }
+    // // img_test();
+    // // img_test2();
+    // let temp_box  = Box::new(100);
+    csv_test();
 
 }
